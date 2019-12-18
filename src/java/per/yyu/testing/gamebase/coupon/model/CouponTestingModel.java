@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 public class CouponTestingModel {
     private String couponTestingInfoFilePath;
+    private int couponType;
+    private int keywordCouponSize;
+    private String keywordCouponCode;
 
     // Coupon Testing Infos
     private String toastProjectAppID;
@@ -14,6 +17,7 @@ public class CouponTestingModel {
 
     private int couponListSize;
     private ArrayList<String> couponCodes;
+    private ArrayList<String> consumeTestingTimes;
     private ArrayList<String> gamebaseServerResponses;
     private ArrayList<String> couponConsumeIsSuccessful;
     private int benefitItemSize;
@@ -21,6 +25,9 @@ public class CouponTestingModel {
 
     public CouponTestingModel() {
         this.couponTestingInfoFilePath = "D:\\NPN\\src\\resource\\coupon\\CouponInfo.txt";
+        this.couponType = 0;
+        this.keywordCouponSize = 0;
+        this.keywordCouponCode = null;
 
         this.toastProjectAppID = null;
         this.gamebaseUserID = null;
@@ -30,6 +37,7 @@ public class CouponTestingModel {
 
         this.couponListSize = 0;
         this.couponCodes = new ArrayList<>();
+        this.consumeTestingTimes = new ArrayList<>();
         this.gamebaseServerResponses = new ArrayList<>();
         this.couponConsumeIsSuccessful = new ArrayList<>();
         this.benefitItemSize = 0;
@@ -38,6 +46,30 @@ public class CouponTestingModel {
 
     public String getCouponTestingInfoFilePath() {
         return this.couponTestingInfoFilePath;
+    }
+
+    public int getCouponType() {
+        return this.couponType;
+    }
+
+    public void setCouponType(int userInput) {
+        this.couponType = userInput;
+    }
+
+    public int getKeywordCouponSize() {
+        return this.keywordCouponSize;
+    }
+
+    public void setKeywordCouponSize(int size) {
+        this.keywordCouponSize = size;
+    }
+
+    public String getKeywordCouponCode() {
+        return this.keywordCouponCode;
+    }
+
+    public void setKeywordCouponCode(String code) {
+        this.keywordCouponCode = code;
     }
 
     public String getDownloadedCouponListFilePath() {
@@ -70,6 +102,14 @@ public class CouponTestingModel {
 
     public void setCouponCodes(ArrayList<String> couponCodes) {
         this.couponCodes = couponCodes;
+    }
+
+    public ArrayList<String> getConsumeTestingTimes() {
+        return this.consumeTestingTimes;
+    }
+
+    public void setConsumeTestingTimes(ArrayList<String> times) {
+        this.consumeTestingTimes = times;
     }
 
     public int getCouponListSize() {

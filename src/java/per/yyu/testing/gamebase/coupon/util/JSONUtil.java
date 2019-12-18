@@ -14,7 +14,7 @@ public class JSONUtil {
         this.jsonParser = new JSONParser();
     }
 
-    public void analysisCouponConsumeResponse(CouponTestingModel couponTestingModel) {
+    public void analysisCouponConsumeResponse(CouponTestingModel couponTestingModel, int analysisCount) {
         try {
             ArrayList<String> couponConsumeResponses = couponTestingModel.getGamebaseServerResponses();
             ArrayList<String> consumeIsSuccessfulResults = new ArrayList<>();
@@ -22,12 +22,12 @@ public class JSONUtil {
             ArrayList<String> benefitItems = new ArrayList<>();
 
             // 쿠폰 사이즈는 카테고리까지 포함하므로, 카테고리를 뺀 만큼 수량까지 Response Analysis 를 수행한다.
-            for(int analysisCount = 0; analysisCount < couponTestingModel.getCouponListSize() - 1; analysisCount++) {
-                JSONObject originObj = (JSONObject) jsonParser.parse(couponConsumeResponses.get(analysisCount));
+            for(int count = 0; count < analysisCount; count++) {
+                JSONObject originObj = (JSONObject) jsonParser.parse(couponConsumeResponses.get(count));
                 JSONObject headerObj = (JSONObject) originObj.get("header");
 
                 if(headerObj.get("isSuccessful").equals(true)) {
-                    consumeIsSuccessfulResults.add(analysisCount, "PASS");
+                    consumeIsSuccessfulResults.add(count, "PASS");
 
                     JSONObject resultObj = (JSONObject) originObj.get("result");
                     JSONArray benefitsArray = (JSONArray) resultObj.get("benefits");
@@ -37,18 +37,18 @@ public class JSONUtil {
                         JSONObject benefitsObj = (JSONObject) benefitsArray.get(itemCount);
                         benefitItems.add(itemCount, benefitsObj.get("itemId") + " : " + benefitsObj.get("amount") + "\n");
                     }
-                    consumeTestingResults.add(analysisCount, benefitItems.toString());
+                    consumeTestingResults.add(count, benefitItems.toString());
                     benefitItems.clear();
                 } else {
-                    consumeIsSuccessfulResults.add(analysisCount, "FAIL");
-                    consumeTestingResults.add(analysisCount, headerObj.get("resultCode") + " : " + headerObj.get("resultMessage"));
+                    consumeIsSuccessfulResults.add(count, "FAIL");
+                    consumeTestingResults.add(count, headerObj.get("resultCode") + " : " + headerObj.get("resultMessage"));
                 }
             }
             couponTestingModel.setCouponConsumeIsSuccessful(consumeIsSuccessfulResults);
             couponTestingModel.setCouponConsumeTestingResult(consumeTestingResults);
 
-            System.out.println("[JSON Util] : " + couponTestingModel.getCouponConsumeIsSuccessful());
-            System.out.println("[JSON Util] : " + couponTestingModel.getCouponConsumeTestingResult());
+//            System.out.println("[JSON Util] : " + couponTestingModel.getCouponConsumeIsSuccessful());
+//            System.out.println("[JSON Util] : " + couponTestingModel.getCouponConsumeTestingResult());
         } catch (Exception e) {
             e.printStackTrace();
         }
